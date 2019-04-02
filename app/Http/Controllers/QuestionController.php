@@ -24,7 +24,7 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        //
+        return view('questioncreate');
     }
 
     /**
@@ -82,4 +82,13 @@ class QuestionController extends Controller
     {
         //
     }
+
+    public function details($id){
+
+        $product = Question::find($id);
+        return view('details')->with('products',$product);
+        //return $slug;
+    }
+
+
 }

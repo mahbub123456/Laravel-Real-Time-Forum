@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Question;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -22,7 +23,9 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
+
     {
-        return view('home');
+        $all_questions = Question::paginate(5);
+        return view('home')->with('questions',$all_questions);
     }
 }

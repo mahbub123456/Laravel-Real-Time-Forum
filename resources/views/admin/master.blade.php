@@ -40,12 +40,13 @@
         <div class="pull-right hidden-xs">
             <b>Version</b> 2.4.0
         </div>
-        <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+        <strong>Copyright 2019 <a href="#">GMS Forum</a>.</strong> All rights
         reserved.
     </footer>
 
 </div>
 <!-- ./wrapper -->
 <script src="{{asset('js/app.js')}}"></script>
+<script src="{{asset('js/ckeditor/ckeditor.js')}}"></script>
 </body>
 </html>

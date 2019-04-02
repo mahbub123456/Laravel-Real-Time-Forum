@@ -1,97 +1,62 @@
 @extends('admin.master')
 
-
-
-
 @section('content')
 
-
-    <section class="content">
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-aqua">
-                    <div class="inner">
-                        <h3>150</h3>
-
-                        <p>New Orders</p>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+                        You are logged in! {{Auth::user()->name}}
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-green">
-                    <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                        <p>Bounce Rate</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-yellow">
-                    <div class="inner">
-                        <h3>44</h3>
-
-                        <p>User Registrations</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-red">
-                    <div class="inner">
-                        <h3>65</h3>
-
-                        <p>Unique Visitors</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
         </div>
-        <!-- /.row -->
+    </div>
 
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-body">
-                            @if (session('status'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('status') }}
-                                </div>
-                            @endif
-                            You are logged in! {{Auth::user()->name}}
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">All Questions</h3>
+                    </div>
+                    <!-- /.box-header -->
+
+                <div class="box">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="col-md-8">
+                            <ul class="list-group">
+                                @foreach($questions as $question)
+                                     <li class="list-group-item">{{ $question->user->name  }} {{$question->created_at->diffForHumans()}}  on  {{$question->category->name}}</li>
+                                    <a href="{{route('question.details',['id'=>$question->id])}}"><li class="list-group-item">{{$question->title}}</li></a>
+                                    <p class="lead">{{$question->body}}</p>
+                                @endforeach
+                                {{$questions->links()}}
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <ul class="list-group">
+                                <li class="list-group-item">Cras justo odio</li>
+                            </ul>
                         </div>
                     </div>
+                    <!-- /.box-body -->
                 </div>
+                <!-- /.box -->
             </div>
+            <!-- /.col -->
         </div>
-
-
-
+        <!-- /.row -->
     </section>
+    <!-- /.content -->
     <!-- /.content -->
 
   @endsection
