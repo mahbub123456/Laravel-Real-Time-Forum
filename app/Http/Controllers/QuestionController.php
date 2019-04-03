@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Question;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,9 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        return view('questioncreate');
+        //$name = "Mahbub";
+        $category = Category::all();
+       return view('questioncreate')->with('category',$category);
     }
 
     /**
@@ -35,7 +38,31 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $questions = new Question();
+
+        $request->validate([
+            'title' => 'required|unique:questions|max:255',
+            'category_id'=>'required',
+            'body'=>'required'
+        ]);
+
+        $questions->title = $request->title;
+        $questions->slug = str_slug($request->title);
+        $questions->body = $request->body;
+        $questions->category_id = $request->category_id;
+        $questions->user_id = auth()->user()->id;
+
+        //dd( $questions->user_id = auth()->user()->id);
+        //dd( $questions->category_id = $request->category_id);
+        //dd( $questions->slug = str_slug($request->title));
+        $questions->save();
+
+        $request->session()->flash("msg","Question Created Successfully");
+        return redirect()->route('home');
+
+
+
+
     }
 
     /**
@@ -55,10 +82,10 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function edit(Question $question)
-    {
-        //
-    }
+//    public function edit(Question $question)
+//    {
+//        //
+//    }
 
     /**
      * Update the specified resource in storage.
@@ -67,10 +94,10 @@ class QuestionController extends Controller
      * @param  \App\Models\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Question $question)
-    {
-        //
-    }
+//    public function update(Request $request, Question $question)
+//    {
+//        //
+//    }
 
     /**
      * Remove the specified resource from storage.
@@ -83,11 +110,54 @@ class QuestionController extends Controller
         //
     }
 
+    public function delete(Request $request,$id){
+
+        $find_question = Question::find($id);
+        $find_question->delete();
+        $request->session()->flash('msg',"Your Question has been Deleted");
+        return redirect()->route('home');
+
+    }
+
     public function details($id){
 
+
+//        $question_id = Question::all();
         $product = Question::find($id);
-        return view('details')->with('products',$product);
-        //return $slug;
+        return view('details')
+            ->with('products',$product);
+
+
+    }
+
+    public function edit(Request $request,$id){
+        $category = Category::all();
+        $questions = Question::find($id);
+        return view('updatequestion')
+            ->with('category',$category)
+            ->with('question',$questions);
+
+    }
+
+    public function update(Request $request,$id){
+
+        $all_questions = Question::find($id);
+
+        $request->validate([
+            'title' => 'required|unique:questions|max:255',
+            'category_id'=>'required',
+            'body'=>'required'
+        ]);
+
+        $all_questions->update([
+            'title'=>$request->title,
+            'category_id'=>$request->category_id,
+            'body'=>$request->body,
+        ]);
+
+        $request->session()->flash("msg","Question Updated Successfully");
+        return redirect()->route('home');
+
     }
 
 

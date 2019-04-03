@@ -14,7 +14,12 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        //$id_current = Auth::user()->id;
+        //$allcategory = Category::where(Auth::user()->id);
+
+       // $allcategory = Category::all();
+
+        //return view('categorycreate')->with('categorys',$allcategory);
     }
 
     /**
@@ -24,8 +29,10 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $allcategory = Category::all();
+        return view('categorycreate')->with('categorys',$allcategory);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +42,18 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category = new Category();
+
+        $request->validate([
+            'name' => 'required|unique:categories|max:255',
+        ]);
+        $category->create([
+            'name'=>$request->name,
+            'slug'=>str_slug($request->name)
+        ]);
+
+        $request->session()->flash('msg',"Category Created Successfully");
+        return redirect()->route('home');
     }
 
     /**

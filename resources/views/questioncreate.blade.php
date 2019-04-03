@@ -2,6 +2,9 @@
 
 @section('content')
 
+
+
+
 <!-- Main content -->
 <section class="content">
 <div class="row">
@@ -20,7 +23,9 @@
 
 <!-- /.box-header -->
 <!-- form start -->
-<form role="form">
+    @include('admin.error_message')
+<form role="form" method="post" action="{{route('question.store')}}">
+    @csrf
     <div class="box-body">
         <div class="form-group">
             <label for="text">Question Title</label>
@@ -28,13 +33,11 @@
                    placeholder="Enter title">
         </div>
         <div class="form-group">
-            <label for="text">Qustion category</label>
-            <select name="category" id="" class="form-control">
-                <option value="">One</option>
-                <option value="">One</option>
-                <option value="">One</option>
-                <option value="">One</option>
-                <option value="">One</option>
+            <label for="text">Question category</label>
+            <select name="category_id" id="" class="form-control">
+                    @foreach($category as $category )
+                    <option value="{{$category->id}}">{{$category->name}}</option>
+                    @endforeach
             </select>
         </div>
        <div class="form-group">
@@ -45,7 +48,7 @@
     </div>
     <!-- /.box-body -->
     <div class="box-footer">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Store</button>
     </div>
 </form>
 </div>

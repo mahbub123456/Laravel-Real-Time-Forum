@@ -1,7 +1,7 @@
 @extends('admin.master')
 
 @section('content')
-
+    @include('admin.successmessage')
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -44,7 +44,12 @@
                         </div>
                         <div class="col-md-4">
                             <ul class="list-group">
-                                <li class="list-group-item">Cras justo odio</li>
+                                <h4><li class="list-group-item">Categorys</li></h4>
+
+                                @foreach($categorys as $category)
+                                    <li class="list-group-item">{{$category->name}}</li>
+                                @endforeach
+                                {{$categorys->links()}}
                             </ul>
                         </div>
                     </div>

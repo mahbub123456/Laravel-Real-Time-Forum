@@ -48,7 +48,7 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="#"><i class="fa fa-circle-o"></i> Manage Qustions Category </a></li>
+                    <li><a href="{{route('category.create')}}"><i class="fa fa-circle-o"></i> Create Category </a></li>
                 </ul>
             </li>
 

@@ -3,6 +3,10 @@
 @section('content')
 
 
+ @php
+     $id_current = Auth::user()->id;
+ @endphp
+
 
 
     <!-- Main content -->
@@ -31,6 +35,12 @@
                             <div class="col-md-4">
                                 <ul class="list-group">
                                     <a style="color:lightseagreen;" href="#" class="btn btn-info"><li class="list-group-item">5 Replys</li></a>
+                                    @if(Auth::user()->id == $products->user_id)
+                                    <a style="color:lightseagreen;" href="{{route('question.edit',['id'=>$products->id])}}" class="btn btn-info"><li class="list-group-item">Edit</li></a>
+                                     <a onclick="return confirm('Are you sure delete this data');" style="color:lightseagreen;" href="{{route('question.delete',['id'=>$products->id])}}" class="btn btn-info"><li class="list-group-item">Delete</li></a>
+                                    @endif
+
+
                                 </ul>
                             </div>
                         </div>

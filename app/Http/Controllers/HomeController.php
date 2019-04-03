@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Question;
 use Illuminate\Http\Request;
 
@@ -25,7 +26,11 @@ class HomeController extends Controller
     public function index()
 
     {
-        $all_questions = Question::paginate(5);
-        return view('home')->with('questions',$all_questions);
+        $all_questions = Question::orderBy('created_at','desc')->paginate(5);
+        $all_category = Category::orderBy('created_at','desc')->paginate(5);
+        //News::orderBy('created_at', 'desc')->take(10)->get();
+        return view('home')
+            ->with('questions',$all_questions)
+            ->with('categorys',$all_category);
     }
 }
